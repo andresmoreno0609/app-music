@@ -1,17 +1,23 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Blank
+      Home
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-
-    <ion-button (click)="saludar()">Default</ion-button>
-  </div>
+  <swiper-container
+  pagination="true"
+  loop="true"
+  slides-per-wiew= "1"
+  >
+  <swiper-slide *ngFor="let genere of generes">
+    <div class="slide-content">
+      <h2></h2>
+      <img [src]="genere.image" [alt]="genere.title">
+      <p>{{genere.description}}</p>
+    </div>
+  </swiper-slide>
+</swiper-container>
 </ion-content>
