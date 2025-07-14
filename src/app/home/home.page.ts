@@ -38,7 +38,7 @@ export class HomePage implements OnInit{
     constructor(private storageService : StorageService, private router : Router) {}
 
     async ngOnInit() {
-     
+      await this.loadStorageData();
     }
     
     async ionViewWillEnter(){
