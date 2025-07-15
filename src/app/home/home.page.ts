@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent, CommonModule, IonButton],
+  imports: [IonHeader, IonToolbar, IonTitle, CommonModule, IonButton],
   schemas:[CUSTOM_ELEMENTS_SCHEMA]
 })
 export class HomePage implements OnInit{

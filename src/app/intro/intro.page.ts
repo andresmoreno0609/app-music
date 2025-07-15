@@ -6,8 +6,6 @@ import { Router } from '@angular/router';
 import { StorageService } from '../services/storage.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-
-
 @Component({
   selector: 'app-intro',
   templateUrl: './intro.page.html',
@@ -19,9 +17,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 export class IntroPage implements OnInit {
   bgFondo = 'var(--bg-color)';
   titleColor= 'var(--title-color)';
-
   buttonClass = 'custom-button';
-
 
   intro = [
     {
@@ -41,7 +37,6 @@ export class IntroPage implements OnInit {
     }
   ]
 
-
   constructor(private router: Router,private storageService : StorageService) { }
 
   ngOnInit() {
@@ -50,11 +45,6 @@ export class IntroPage implements OnInit {
   async goBack(){
     await this.storageService.set('validateIntro',true);
     this.router.navigateByUrl("/home");
-    
-    console.log('Volver');
-
-    // al volver al home, guardar en el storage que vi la pagina de intro
-
   }
 
 }

@@ -6,36 +6,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <swiper-container
-  pagination="true"
-  loop="true"
-  slides-per-wiew= "1"
-  >
-  <swiper-slide *ngFor="let genere of generes">
-    <div class="slide-content">
-      <h2></h2>
-      <img [src]="genere.image" [alt]="genere.title">
-      <p>{{genere.description}}</p>
-    </div>
-  </swiper-slide>
-</swiper-container>
-
-<!-- Demo de Storage -->
-<div>
-  <h3>Demo Ionic storage</h3>
-  <div [style.background-color]="colorActual">
-    <p>Tema actual: {{colorActual === colorOscuro ? 'Oscuro' : 'Claro'}}</p>
-  </div>
-</div>
-
-<div>
-  <ion-button (click) = "cambiarColor()">Cambiar tema y guardar</ion-button>
-</div>
-
 <div>
   <ion-button (click)="goBack()">Ir al intro</ion-button>
-
-  <p>¿ Ya fui al intro ? : {{validateIntro? 'Si':'No'}}</p>
+  <p>¿ Ya fui al intro ? :</p>
 </div>
-</ion-content>
