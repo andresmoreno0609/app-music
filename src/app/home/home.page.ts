@@ -39,6 +39,7 @@ export class HomePage implements OnInit{
 
     async ngOnInit() {
       await this.loadStorageData();
+      this.cargarDatos();
     }
     
     async ionViewWillEnter(){
@@ -62,7 +63,17 @@ export class HomePage implements OnInit{
       console.log("YA fue al intro? " , this.validateIntro);
     }
 
-    // crear una funcion para ir a ver la intro, se va a conectar con un boton que debemos agregar en el HTML
-    // al hacer click que me lleve a ver el intro
+    async cargarDatos(){
+      const data = await this.obtenerDatos();
+      console.log('Datos simulados: ', data);
+    }
+
+    obtenerDatos(){
+      return new Promise((resolve)=>{
+        setTimeout(() =>{
+          resolve(['Musica Clasica','Rock','Jazz'])
+        },3000)
+      })
+    }
 }
 
