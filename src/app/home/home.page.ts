@@ -58,8 +58,13 @@ export class HomePage implements OnInit{
       if(savedTheme) this.colorActual = savedTheme;
     }
 
-    goBack(){
+    goBackIntro(){
       this.router.navigateByUrl("/intro")
+      console.log("YA fue al intro? " , this.validateIntro);
+    }
+
+    goBackLogin(){
+      this.router.navigateByUrl("/login")
       console.log("YA fue al intro? " , this.validateIntro);
     }
 
