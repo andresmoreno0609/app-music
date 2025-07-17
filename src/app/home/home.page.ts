@@ -13,11 +13,11 @@ import { Router } from '@angular/router';
   schemas:[CUSTOM_ELEMENTS_SCHEMA]
 })
 export class HomePage implements OnInit{
-  colorClaro = 'var(--color-claro)';
+  /*colorClaro = 'var(--color-claro)';
   colorOscuro = 'var(--color-oscuro)';
-  colorActual = this.colorOscuro;
+  colorActual = this.colorOscuro;*/
 
-  validateIntro = true;
+  validateIntro = false;
   generes = [
     {
       title:"Musica Clasica",
@@ -39,23 +39,17 @@ export class HomePage implements OnInit{
 
     async ngOnInit() {
       await this.loadStorageData();
-      this.cargarDatos();
+      //this.cargarDatos();
     }
-    
-    async ionViewWillEnter(){
-      console.log("valor de intro? " , await this.storageService.get('validateIntro'));
-      this.validateIntro = await this.storageService.get('validateIntro')== null ? false: this.validateIntro;
-    } 
 
-    async cambiarColor(){
+    /*async cambiarColor(){
       this.colorActual = this.colorActual === this.colorOscuro ? this.colorClaro : this.colorOscuro;
       await this.storageService.set('theme',this.colorActual);
-    }
+    }*/
 
     async loadStorageData(){
-      const savedTheme  = await this.storageService.get('theme');
-
-      if(savedTheme) this.colorActual = savedTheme;
+      const validateIntro = (await this.storageService.get('validateIntro')) === null ? false : true;
+      console.log("ya entre al intro ? ",validateIntro) 
     }
 
     goBackIntro(){
@@ -65,20 +59,20 @@ export class HomePage implements OnInit{
 
     goBackLogin(){
       this.router.navigateByUrl("/login")
-      console.log("YA fue al intro? " , this.validateIntro);
+      console.log("Ya fue al intro? " , this.validateIntro);
     }
 
-    async cargarDatos(){
+    /*async cargarDatos(){
       const data = await this.obtenerDatos();
       console.log('Datos simulados: ', data);
-    }
+    }*/
 
-    obtenerDatos(){
+    /*obtenerDatos(){
       return new Promise((resolve)=>{
         setTimeout(() =>{
           resolve(['Musica Clasica','Rock','Jazz'])
         },3000)
       })
-    }
+    }*/
 }
 

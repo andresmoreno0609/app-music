@@ -6,17 +6,17 @@ import { StorageService } from '../services/storage.service';
   providedIn: 'root'
 })
 
-export class introGuard implements CanActivate {
+export class loginGuard implements CanActivate {
 
   constructor(private storageService: StorageService,private router: Router) {}
 
   async canActivate(): Promise<boolean> {
-    const validateIntro = (await this.storageService.get('validateIntro')) === null ? false : true;
+    const validateLogin = (await this.storageService.get('validateLogin')) === null ? false : true;
 
-    if (!validateIntro) {
-      this.router.navigate(['/intro']);
+    if (!validateLogin) {
+      this.router.navigate(['/login']);
     }
 
-    return validateIntro
+    return validateLogin
   }
 }

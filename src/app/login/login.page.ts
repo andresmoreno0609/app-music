@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule,ReactiveFormsModule,FormBuilder,Validator, FormGroup, Validators, FormControl } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController,ToastController  } from '@ionic/angular';
+import { AuthService } from '../services/auth/auth.service';
+import { StorageService } from '../services/storage.service';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +15,7 @@ import { IonicModule } from '@ionic/angular';
 export class LoginPage implements OnInit {
   loginForm: FormGroup;
   bgFondo = 'var(--bg-color)';
+  errorMessage: string = "" ;
 
   validation_messages = {
     email: [
@@ -25,7 +28,9 @@ export class LoginPage implements OnInit {
     ]
   };
   
-  constructor(private fromBuilder: FormBuilder) { 
+  constructor(private fromBuilder: FormBuilder, private authService : AuthService, private navController : NavController,
+    private toastController: ToastController,private storageService : StorageService
+  ) { 
     this.loginForm = this.fromBuilder.group({
       email: new FormControl('',[Validators.required,Validators.email]),
       password: new FormControl('',Validators.required)
@@ -35,8 +40,25 @@ export class LoginPage implements OnInit {
   ngOnInit() {
   }
 
-  loginUser(credentials:any){
-    console.log(credentials)
+  async loginUser(credentials: any) {
+  try {
+    const response = await this.authService.loginUser(credentials);
+    this.errorMessage = "";
+    await this.storageService.set('validateLogin', true);
+    this.navController.navigateForward("/home");
+  } catch (error) {
+    this.presentErrorToast(error as string);
+    console.log("Response", error);
   }
+}
+  async presentErrorToast(message: string) {
+  const toast = await this.toastController.create({
+    message: message,
+    duration: 4000,
+    position: 'bottom',
+    cssClass: 'toast-error'
+  });
+  await toast.present();
+}
 
 }
