@@ -73,4 +73,8 @@ export class LoginPage implements OnInit {
     });
     await toast.present();
   }
+
+  goToRegister() {
+  this.navController.navigateForward('/register');
+}
 }

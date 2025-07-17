@@ -67,16 +67,14 @@
 .account-question {
   text-align: center;
   margin-top: 20px;
+  font-size: 14px;
+  color: #333;
+}
 
-  span {
-    color: #333; // Color oscuro para que se vea bien
-    font-size: 14px;
-  }
-
-  a {
-    color: #2e89ff; // Azul llamativo
-    font-weight: 600;
-    text-decoration: none;
-    margin-left: 5px;
-  }
+.login-link {
+  color: #3e9eff;
+  font-weight: bold;
+  margin-left: 4px;
+  cursor: pointer;
+  text-decoration: none;
 }
