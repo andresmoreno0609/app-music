@@ -1,10 +1,11 @@
 import { Component,OnInit } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, ModalController } from '@ionic/angular/standalone';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StorageService } from '../services/storage.service';
 import { CatalogService } from '../services/core/catalog.service';
 import { Router } from '@angular/router';
+import { SongsModalPage } from '../songs-modal/songs-modal.page';
 
 @Component({
   selector: 'app-home',
@@ -39,7 +40,9 @@ export class HomePage implements OnInit{
       description: "El jazz es un género musical nacido en Estados Unidos a finales del siglo XIX, conocido por su improvisación, ritmo swing y una gran expresividad instrumental."
     }
   ]
-    constructor(private storageService : StorageService, private router : Router, private catalogService: CatalogService) {}
+    constructor(private storageService : StorageService, private router : Router, private catalogService: CatalogService,
+      private modalController: ModalController
+    ) {}
 
     async ngOnInit() {
       await this.loadStorageData();
@@ -85,5 +88,19 @@ export class HomePage implements OnInit{
       this.localArtist = this.catalogService.getLocalArtists;
       console.log('Artistas: ', this.localArtist.artistas)
     }
+
+    async showSongs(albumId: string){
+      console.log('albumId: ',albumId)
+      const songs = await this.catalogService.getSongByAlbumId(albumId);
+      console.log('songs: ',songs)
+      const modal = await this.modalController.create({
+        component:SongsModalPage,
+        componentProps:{
+          songs
+        }
+      })
+      modal.present();
+    }
 }
+
 

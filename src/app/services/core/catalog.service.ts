@@ -23,4 +23,14 @@ export class CatalogService {
   getLocalArtists(){
     return dataArtist;
   }
+
+  getSongByAlbumId(albumId: string){
+    return fetch(`${this.urlServer}/tracks/album/${albumId}`)
+    .then(response => response.json());
+  }
+
+  getArtistById(artistId: number){
+    return fetch(`${this.urlServer}/artists/${artistId}`)
+    .then(response => response.json());
+  }
 }
