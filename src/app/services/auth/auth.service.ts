@@ -5,15 +5,43 @@ import { StorageService } from '../storage.service';
   providedIn: 'root'
 })
 export class AuthService {
+  urlServer = 'https://music.fly.dev';
 
   constructor(private storageService : StorageService) { }
 
-  async loginUser(credentials: any): Promise<string> {
-  if (credentials.email === 'andres@gmail.com' && credentials.password === '12345') {
-    await this.storageService.set('validateLogin',true);
-    return 'Validación exitosa';
-  } else {
-    throw 'Error en las credenciales';
+  getArtistById(artistId: number){
+    return fetch(`${this.urlServer}/artists/${artistId}`)
+    .then(response => response.json());
   }
-}
+
+   loginUser(data: any): Promise<any> {
+    return fetch(`${this.urlServer}/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ user: data })
+    }).then(response => {
+      if (!response.ok) {
+        return response.json().then(err => Promise.reject(err));
+      }
+      return response.json();
+    });
+  }
+  
+  registerUser(data: any): Promise<any> {
+    return fetch(`${this.urlServer}/signup`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }).then(response => {
+      if (!response.ok) {
+        return response.json().then(err => Promise.reject(err));
+      }
+      return response.json();
+    });
+  }
+
 }

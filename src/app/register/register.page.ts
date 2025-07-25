@@ -16,6 +16,7 @@ import {
   IonInput,
   IonButton, IonItem, IonLabel } from '@ionic/angular/standalone';
 import { StorageService } from '../services/storage.service';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -37,14 +38,14 @@ export class RegisterPage implements OnInit {
   errorMessage: string = '';
 
   validation_messages = {
-    nombres: [
+    name: [
       { type: 'required', message: 'El nombre es obligatorio.' },
       {
         type: 'minlength',
         message: 'El nombre debe tener al menos 3 caracteres.',
       },
     ],
-    apellidos: [
+    username: [
       { type: 'required', message: 'Los apellidos sib obligatorios.' },
       {
         type: 'minlength',
@@ -64,19 +65,21 @@ export class RegisterPage implements OnInit {
     ],
   };
 
+
   constructor(
     private navController: NavController,
     private fromBuilder: FormBuilder,
     private toastController: ToastController,
     private storageService: StorageService,
-    private router : Router
+    private router : Router,
+    private authService: AuthService
   ) {
     this.registerForm = this.fromBuilder.group({
-      nombres: new FormControl('', [
+      name: new FormControl('', [
         Validators.required,
         Validators.minLength(3),
       ]),
-      apellidos: new FormControl('', [
+      surname: new FormControl('', [
         Validators.required,
         Validators.minLength(4),
       ]),
@@ -88,23 +91,44 @@ export class RegisterPage implements OnInit {
     });
   }
 
-  async registerUser(credentials: any) {
-    try {
-      this.errorMessage = '';
+ registerUser(formData: any) {
+  console.log('Registrando usuario:', formData);
 
-      // Guardar usuario en Storage
-      await this.storageService.set('registeredUser', credentials);
-
-      // Guardar flag de login (para activar guard)
-      await this.storageService.set('validateLogin', true);
-
-      // Redirigir al home
-      this.navController.navigateForward('menu/home');
-    } catch (error) {
-      this.presentErrorToast('Ocurrió un error al registrar el usuario.');
-      console.log('Error al registrar:', error);
+  const payload = {
+    user: {
+      email: formData.email,
+      password: formData.password,
+      password_confirmation: formData.password,
+      name: formData.name,
+      surname: formData.surname
     }
-  }
+  };
+
+  this.authService.registerUser(payload)
+    .then(async (response) => {
+      this.errorMessage = '';
+      console.log('Registro exitoso:', response);
+
+      try {
+        await this.storageService.set('credenciales', {
+          name: payload.user.name,
+          surname: payload.user.surname,
+          email: payload.user.email,
+          password: payload.user.password
+        });
+
+        this.navController.navigateForward('/login');
+      } catch (storageError) {
+        console.error('Error guardando en almacenamiento:', storageError);
+      }
+
+    })
+    .catch((err) => {
+      console.warn('Error durante el registro:', err);
+      this.errorMessage = err?.message || 'No se pudo completar el registro.';
+    });
+}
+
 
   async presentErrorToast(message: string) {
     const toast = await this.toastController.create({
